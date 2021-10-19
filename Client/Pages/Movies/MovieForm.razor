@@ -1,0 +1,33 @@
+﻿<EditForm Model="@mov" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Movie Name :</label>
+        <div>
+            <InputText @bind-Value="@mov.Movie_Name" />
+            <ValidationMessage For="@(() => mov.Movie_Name)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Movie Genre:</label>
+            <select @bind="@mov.Movie_Genre">
+                <option value="">Select a genre</option>
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Drama">Drama</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Crime">Crime</option>
+
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+@code {
+    [Parameter] public Movie mov { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

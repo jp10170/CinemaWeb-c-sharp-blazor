@@ -1,0 +1,43 @@
+﻿@page "/movie"
+@inject HttpClient client
+@inject IJSRuntime js
+
+
+<h3>Movies</h3>
+<small>Here are all current movies that you will be able to watch!</small>
+@if (movies == null)
+{
+    <text>Loading...</text>
+}
+else if (movies.Length == 0)
+{
+    <text>We have no movies to be seen.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Movie Name:</th>
+                <th>Movie Genre:</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Movie mov in movies)
+            {
+                <tr>
+                    <td>@mov.Movie_Name</td>
+                    <td>@mov.Movie_Genre</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    Movie[] movies { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await client.GetFromJsonAsync<Movie[]>("api/movie");
+    }
+}

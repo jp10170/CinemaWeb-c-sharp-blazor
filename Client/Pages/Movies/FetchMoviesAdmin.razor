@@ -1,0 +1,65 @@
+﻿@page "/movieAdmin"
+@inject HttpClient client
+@inject IJSRuntime js
+
+
+<AuthorizeView Roles="Admin">
+    <h3>Movies</h3>
+    <small>Add as many movies as you wish.</small>
+    <div class="form-group">
+        <a class="btn btn-success" href="movieAdmin/create"><i class="oi oi-plus"></i> Create New</a>
+    </div>
+
+    <br>
+    @if (movies == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (movies.Length == 0)
+    {
+        <text>No Records Found.</text>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Movie Name:</th>
+                    <th>Movie Genre:</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Movie mov in movies)
+                {
+                    <tr>
+                        <td>@mov.Movie_Name</td>
+                        <td>@mov.Movie_Genre</td>
+                        <td>
+                            <a class="btn btn-success" href="movieAdmin/edit/@mov.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="@(() => Delete(mov.Id))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+</AuthorizeView>
+    @code {
+        Movie[] movies { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            movies = await client.GetFromJsonAsync<Movie[]>("api/movie");
+        }
+        async Task Delete(int moviesId)
+        {
+            var mov = movies.First(x => x.Id == moviesId);
+            if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {mov.Movie_Name}'s ({mov.Id}) Record?"))
+            {
+                await client.DeleteAsync($"api/movie/{moviesId}");
+                await OnInitializedAsync();
+            }
+        }
+
+    }

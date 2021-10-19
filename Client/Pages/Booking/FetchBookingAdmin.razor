@@ -1,0 +1,51 @@
+﻿@page "/bookingAdmin"
+@inject HttpClient client
+@inject IJSRuntime js
+
+
+<AuthorizeView Roles="Admin">
+    <h3>All bookings:</h3>
+    <br>
+    @if (bookings == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (bookings.Length == 0)
+    {
+        <text>No Records Found.</text>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Movie Name:</th>
+                    <th>Hall Name:</th>
+                    <th>Seat Number:</th>
+                    <th>Reservation name:</th>
+                    <th>Screening start:</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (BookingWeb bok in bookings)
+                {
+                    <tr>
+                        <td>@bok.Movie</td>
+                        <td>@bok.Hall_Name</td>
+                        <td>@bok.SeatNumber</td>
+                        <td>@bok.User_Name</td>
+                        <td>@bok.Screening_start</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</AuthorizeView>
+@code {
+    BookingWeb[] bookings { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        bookings = await client.GetFromJsonAsync<BookingWeb[]>("api/booking/getall");
+    }
+}

@@ -1,0 +1,59 @@
+﻿@page "/booking"
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager Navigation
+
+
+<h3>Booking</h3>
+<small>Pick the movie you want!</small>
+<br>
+@if (screenings == null)
+{
+    <text>Loading...</text>
+}
+else if (screenings.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Movie Name:</th>
+                <th>Hall Name:</th>
+                <th>Screening Start:</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ScreeningWeb scr in screenings)
+            {
+               
+            <tr>
+                <td>@scr.Movie</td>
+                <td>@scr.Hall</td>
+                <td>@scr.Screening_start</td>
+                <td>
+                    <button class="nav-link btn btn-link" @onclick="@(() => SelectMovie(scr.Id))">Select</button>
+                </td>
+                
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@code {
+
+    ScreeningWeb[] screenings { get; set; }
+    SeatWeb[] seats { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        screenings = await client.GetFromJsonAsync<ScreeningWeb[]>("api/screening/getall");
+    }
+    private async Task SelectMovie(int Id)
+    {
+
+        Navigation.NavigateTo("booking/SeatSelect/" + Id);
+    }
+}

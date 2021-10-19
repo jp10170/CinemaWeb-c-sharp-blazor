@@ -1,0 +1,45 @@
+﻿@page "/screening"
+@inject HttpClient client
+@inject IJSRuntime js
+
+
+    <h3>Screenings</h3>
+    <br>
+    @if (screenings == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (screenings.Length == 0)
+    {
+        <text>No Records Found.</text>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Movie Name:</th>
+                    <th>Hall Name:</th>
+                    <th>Screening Start:</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ScreeningWeb scr in screenings)
+                {
+                    <tr>
+                        <td>@scr.Movie</td>
+                        <td>@scr.Hall</td>
+                        <td>@scr.Screening_start</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+@code {
+    ScreeningWeb[] screenings { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        screenings = await client.GetFromJsonAsync<ScreeningWeb[]>("api/screening/getall");
+    }
+}

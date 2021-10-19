@@ -1,0 +1,14 @@
+﻿@page "/movieAdmin/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+<h3>Create</h3>
+<MovieForm ButtonText="Create Movie" mov="@mov"
+      OnValidSubmit="@Createmovie" />
+@code {
+    Movie mov = new Movie();
+    async Task Createmovie()
+    {
+        await http.PostAsJsonAsync("api/movie", mov);
+        uriHelper.NavigateTo("movieAdmin");
+    }
+}

@@ -1,0 +1,77 @@
+﻿@page "/booking/SeatSelect/{ScreeningId}"
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager Navigation
+
+
+<h3>Book yourself a seat!</h3>
+
+@if (seats == null || screaning == null)
+{
+    <text>Loading...</text>
+}
+else if (seats.Length == 0)
+{
+    <text>No available seats left!.</text>
+}
+else
+{
+    <th>Movie you picked:</th>
+    <h1> @screaning.Movie</h1>
+    <h1>Reservation name:</h1>
+    <input value="@CurrentValue"
+           @onchange="@((ChangeEventArgs __e) => CurrentValue =
+        __e.Value.ToString())" />
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Seat Number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SeatWeb scr in seats)
+            {
+                <tr>
+                    <td>@scr.Id</td>
+                    <td>@scr.Number</td>
+                    <td>
+                        <button class="nav-link btn btn-link" @onclick="@(() => SelectSeat(scr.Id))">Select</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    SeatWeb[] seats { get; set; }
+    ScreeningWeb screaning { get; set; }
+    private string CurrentValue { get; set; }
+
+
+    [Parameter]
+    public string ScreeningId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        seats = await client.GetFromJsonAsync<SeatWeb[]>("api/Seatnoes/AvailableSeats/" + ScreeningId);
+        screaning = await client.GetFromJsonAsync<ScreeningWeb>("api/screening/" + ScreeningId);
+    }
+
+    private async Task SelectSeat(int Id)
+    {
+
+        Booking b = new Booking
+        {
+            ScreeningId = Int32.Parse(ScreeningId),
+            SeatnoId = Id,
+            User_Name=CurrentValue,
+
+        };
+        await client.PostAsJsonAsync<Booking>("api/booking/", b);
+        seats = await client.GetFromJsonAsync<SeatWeb[]>("api/Seatnoes/AvailableSeats/" + ScreeningId);
+    }
+}
