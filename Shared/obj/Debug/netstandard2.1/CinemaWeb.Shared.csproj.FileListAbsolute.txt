@@ -1,0 +1,9 @@
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\bin\Debug\netstandard2.1\CinemaWeb.Shared.deps.json
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\bin\Debug\netstandard2.1\CinemaWeb.Shared.dll
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.csprojAssemblyReference.cache
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.AssemblyInfoInputs.cache
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.AssemblyInfo.cs
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\bin\Debug\netstandard2.1\CinemaWeb.Shared.pdb
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.dll
+C:\Users\Korisnik\source\repos\CinemaWeb\CinemaWeb\Shared\obj\Debug\netstandard2.1\CinemaWeb.Shared.pdb
